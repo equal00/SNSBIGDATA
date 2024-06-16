@@ -12,7 +12,6 @@ keyword = input('크롤링할 이미지의 키워드를 알려주세요 ')
 count = int(input('크롤링 할 건수를 알려주세요'))
 save_folder = input('파일이 저장될 경로를 입력하세요')
 page_number = 1
-# 크롬 드라이버 설정 및 크롤링 시작
 try:  
     driver = webdriver.Chrome()
     driver.get('https://pixabay.com/ko/')
@@ -38,24 +37,19 @@ try:
     last_scroll_position = driver.execute_script("return window.pageYOffset || document.documentElement.scrollTop;")
 
     while len(imgs) < count:
-        # 스크롤을 조금씩 내린다.
         driver.execute_script("window.scrollBy(0, window.innerHeight);")
-        time.sleep(scroll_pause_time)  # 페이지가 로드될 시간을 주기 위해 잠시 대기
+        time.sleep(scroll_pause_time) 
 
-        # 이미지 요소들을 다시 찾는다.
         new_imgs = driver.find_elements(By.CSS_SELECTOR, 'img')
         for img in new_imgs:
             try:
                 img_url = img.get_attribute('src')
-                # print(img_url)
                 imgs.add(img_url)
             except StaleElementReferenceException as e:
                 print(e)
                 continue
 
-        # 현재 스크롤 위치를 측정
         current_scroll_position = driver.execute_script("return window.pageYOffset || document.documentElement.scrollTop;")
-        # print("현재 스크롤 위치:", current_scroll_position, last_scroll_position)
 
         if current_scroll_position == last_scroll_position:
             try:
@@ -70,7 +64,6 @@ try:
 
         last_scroll_position = current_scroll_position
 
-    # 이미지 다운로드
     for i, img_url in enumerate(list(imgs)[:count]):
         try:
             img_data = requests.get(img_url).content
