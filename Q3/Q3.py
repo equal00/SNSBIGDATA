@@ -8,9 +8,9 @@ import time
 import os
 import requests
 
-keyword = input('크롤링할 이미지의 키워드를 알려주세요 ')
-count = int(input('크롤링 할 건수를 알려주세요'))
-save_folder = input('파일이 저장될 경로를 입력하세요')
+keyword = input('크롤링할 이미지의 키워드를 알려주세요: ')
+count = int(input('크롤링 할 건수를 알려주세요: '))
+save_folder = input('파일이 저장될 경로를 입력하세요: ')
 page_number = 1
 try:  
     driver = webdriver.Chrome()
@@ -79,4 +79,4 @@ except Exception as e:
 
 finally:
     driver.quit()
-    print('크롤링 완료. 브라우저를 종료합니다.')
+    print('크롤링 완료.')
